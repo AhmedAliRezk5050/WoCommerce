@@ -36,7 +36,7 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
             query = query.Include(c);
         }
 
-        return query.ToListAsync();
+        return query.AsNoTracking().ToListAsync();
     }
 
     public Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, List<string>? includedProperties = null)
