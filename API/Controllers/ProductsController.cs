@@ -6,5 +6,15 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
+    [HttpGet]
+    public string GetProducts()
+    {
+        return "Products";
+    }
     
+    [HttpGet("{id}")]
+    public string GetProduct(int id)
+    {
+        return "Product";
+    } 
 }
