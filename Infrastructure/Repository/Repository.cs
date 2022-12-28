@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
+using Core.Entities;
 using Core.Interfaces.Repository;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<T> : IRepository<T> where T : BaseEntity
 {
     internal readonly DbSet<T> _dbSet;
 

@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "Angular",
+    "CreatedAt": "2022-12-19"
+  },
+  {
+    "Name": "NetCore",
+    "CreatedAt": "2022-12-19"
+  },
+  {
+    "Name": "VS Code",
+    "CreatedAt": "2022-12-19"
+  },
+  {
+    "Name": "React",
+    "CreatedAt": "2022-12-19"
+  },
+  {
+    "Name": "Typescript",
+    "CreatedAt": "2022-12-19"
+  },
+  {
+    "Name": "Redis",
+    "CreatedAt": "2022-12-19"
+  }
+]

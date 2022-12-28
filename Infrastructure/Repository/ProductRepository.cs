@@ -12,6 +12,7 @@ public class ProductRepository : Repository<Product>, IProductRepository
 
     public void Update(Product product)
     {
+        product.UpdatedAt = DateTime.Now;
         _dbSet.Update(product);
     }
 }

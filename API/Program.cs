@@ -1,5 +1,6 @@
 using Core.Interfaces.Repository;
 using Infrastructure.Data;
+using Infrastructure.Data.Seeding;
 using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,4 +36,21 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+await Migrate(app);
+
 app.Run();
+
+async Task Migrate(WebApplication application)
+{
+    try
+    {
+        using var scope = application.Services.CreateScope();
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<AppDbContext>();
+        await Seed.SeedData(context);
+    }
+    catch (Exception e)
+    {
+        application.Logger.LogError(e, "An error occured during migration");
+    }
+}

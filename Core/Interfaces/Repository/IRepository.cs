@@ -1,8 +1,9 @@
 ﻿using System.Linq.Expressions;
+using Core.Entities;
 
 namespace Core.Interfaces.Repository;
 
-public interface IRepository<T> where T : class
+public interface IRepository<T> where T : BaseEntity
 {
     Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, List<string>? includedProperties = null);
 
