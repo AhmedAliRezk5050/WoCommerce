@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
@@ -6,15 +8,29 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    [HttpGet]
-    public string GetProducts()
+    private readonly AppDbContext _dbContext;
+
+    public ProductsController(AppDbContext dbContext)
     {
-        return "Products";
+        _dbContext = dbContext;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetProducts()
+    {
+        var products = await _dbContext.Products.ToListAsync();
+        return Ok(products);
     }
     
     [HttpGet("{id}")]
-    public string GetProduct(int id)
+    public async Task<IActionResult> GetProduct(int id)
     {
-        return "Product";
+        var product = await _dbContext.Products.FindAsync(id);
+
+        if (product is null)
+        {
+            return NotFound();
+        }
+        return Ok(product);
     } 
 }
