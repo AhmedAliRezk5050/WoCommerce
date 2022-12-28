@@ -3,12 +3,15 @@ using Infrastructure.Data;
 using Infrastructure.Data.Seeding;
 using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     {
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
