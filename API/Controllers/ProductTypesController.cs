@@ -1,18 +1,20 @@
-﻿using AutoMapper;
-using Core.Interfaces.Repository;
+﻿using Core.Interfaces.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class ProductTypesController : BaseController
+public class ProductTypesController : ApiController
 {
-    public ProductTypesController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    private readonly IUnitOfWork _unitOfWork;
+
+    public ProductTypesController(IUnitOfWork unitOfWork)
     {
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<IActionResult> GetProductTypes()
     {
-        var productTypes  = await UnitOfWork.ProductTypeRepository.GetAllAsync();
+        var productTypes  = await _unitOfWork.ProductTypeRepository.GetAllAsync();
         return Ok(productTypes);
     }
 }

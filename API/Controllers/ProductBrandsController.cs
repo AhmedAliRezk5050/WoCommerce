@@ -4,15 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class ProductBrandsController : BaseController
+public class ProductBrandsController : ApiController
 {
-    public ProductBrandsController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    private readonly IUnitOfWork _unitOfWork;
+
+    public ProductBrandsController(IUnitOfWork unitOfWork)
     {
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<IActionResult> GetProductBrands()
     {
-        var productBrands  = await UnitOfWork.ProductBrandRepository.GetAllAsync();
+        var productBrands  = await _unitOfWork.ProductBrandRepository.GetAllAsync();
         return Ok(productBrands);
     }
 }
