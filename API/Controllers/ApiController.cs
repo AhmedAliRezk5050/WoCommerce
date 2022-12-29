@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Core.Interfaces.Repository;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
