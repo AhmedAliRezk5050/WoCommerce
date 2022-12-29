@@ -1,8 +1,10 @@
+using API.Errors;
 using API.Middleware;
 using Core.Interfaces.Repository;
 using Infrastructure.Data;
 using Infrastructure.Data.Seeding;
 using Infrastructure.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -19,6 +21,24 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.EnableSensitiveDataLogging(true);
     }
 );
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Where(m => m.Value != null && m.Value.Errors.Any())
+            .SelectMany(x => x.Value!.Errors)
+            .Select(x => x.ErrorMessage).ToArray();
+
+        var errorResponse = new AppValidationErrorResponse()
+        {
+            Errors = errors
+        };
+
+        return new BadRequestObjectResult(errorResponse);
+    };
+});
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
