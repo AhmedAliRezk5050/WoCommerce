@@ -1,11 +1,12 @@
-﻿using Core.Interfaces.Repository;
+﻿using AutoMapper;
+using Core.Interfaces.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
 public class ProductBrandsController : BaseController
 {
-    public ProductBrandsController(IUnitOfWork unitOfWork) : base(unitOfWork)
+    public ProductBrandsController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
 
