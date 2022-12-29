@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Interfaces.Repository;
 using Infrastructure.Data;
 using Infrastructure.Data.Seeding;
@@ -32,10 +33,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseHttpsRedirection();
-
+ 
 app.UseAuthorization();
 
 app.UseStaticFiles();

@@ -21,6 +21,8 @@ public class ProductsController : ApiController
     public async Task<IActionResult> GetProducts()
     {
         var products = await _unitOfWork.ProductRepository.GetAllAsync(new ProductsWithTypesAndBrandsSpecification());
+        var x = 50;
+        Console.WriteLine(x/0);
         return Ok(_mapper.Map<List<ProductDto>>(products));
     }
      
