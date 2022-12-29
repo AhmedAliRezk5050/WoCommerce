@@ -37,11 +37,13 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseStaticFiles();
+
 app.MapControllers();
 
 await Migrate(app);
-
-app.Run();
+ 
+app.Run();  
 
 async Task Migrate(WebApplication application)
 {
