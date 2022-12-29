@@ -1,4 +1,5 @@
 ﻿using Core.Interfaces.Repository;
+using Infrastructure.Specifications.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -12,14 +13,15 @@ public class ProductsController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetProducts()
     {
-        var products = await UnitOfWork.ProductRepository.GetAllAsync(includedProperties: new List<string>() {"ProductType", "ProductBrand"});
+        var products = await UnitOfWork.ProductRepository.GetAllAsync();
         return Ok(products);
     }
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProduct(int id)
     {
-        var product = await UnitOfWork.ProductRepository.GetFirstOrDefaultAsync(p => p.Id == id);
+        var spec = new ProductWithTypesAndBrandsSpecification(id);
+        var product = await UnitOfWork.ProductRepository.GetFirstOrDefaultAsync(spec);
 
         if (product is null)
         {

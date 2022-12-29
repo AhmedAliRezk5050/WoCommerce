@@ -1,7 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Core.Entities;
 using Core.Interfaces.Repository;
+using Core.Interfaces.Specifications;
 using Infrastructure.Data;
+using Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
@@ -20,38 +22,12 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         _dbSet.Add(entity);
     }
 
-    public Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, List<string>? includedProperties = null)
-    {
-        IQueryable<T> query = _dbSet;
+    public Task<List<T>> GetAllAsync() =>  _dbSet.AsNoTracking().ToListAsync();
 
-        if (filter is not null)
-        {
-            query = query.Where(filter);
-        }
+    public Task<List<T>> GetAllAsync(ISpecification<T> specification) =>
+        ApplySpecification(specification).AsNoTracking().ToListAsync();
 
-        if (includedProperties is null) return query.ToListAsync();
-        
-        foreach (var c in includedProperties)
-        {
-            query = query.Include(c);
-        }
-
-        return query.AsNoTracking().ToListAsync();
-    }
-
-    public Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, List<string>? includedProperties = null)
-    {
-        var query = _dbSet.Where(filter);
-
-        if (includedProperties is null) return query.FirstOrDefaultAsync();
-        
-        foreach (var c in includedProperties)
-        {
-            query = query.Include(c);
-        }
-
-        return query.FirstOrDefaultAsync();
-    }
+    public Task<T?> GetFirstOrDefaultAsync(ISpecification<T> specification) => ApplySpecification(specification).FirstOrDefaultAsync();
 
     public void Remove(T entity)
     {
@@ -61,5 +37,10 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
     public void RemoveRange(IEnumerable<T> range)
     {
         _dbSet.RemoveRange(range);
+    }
+
+    private IQueryable<T> ApplySpecification(ISpecification<T> specification)
+    {
+        return SpecificationEvaluator<T>.GetQuery(_dbSet.AsQueryable(), specification);
     }
 }
