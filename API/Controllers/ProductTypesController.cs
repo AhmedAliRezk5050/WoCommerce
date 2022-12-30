@@ -12,9 +12,10 @@ public class ProductTypesController : ApiController
         _unitOfWork = unitOfWork;
     }
 
+    [HttpGet]
     public async Task<IActionResult> GetProductTypes()
     {
         var productTypes  = await _unitOfWork.ProductTypeRepository.GetAllAsync();
         return Ok(productTypes);
-    }
+    } 
 }

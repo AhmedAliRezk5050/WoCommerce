@@ -12,7 +12,8 @@ public class ProductBrandsController : ApiController
     {
         _unitOfWork = unitOfWork;
     }
-
+    
+    [HttpGet]
     public async Task<IActionResult> GetProductBrands()
     {
         var productBrands  = await _unitOfWork.ProductBrandRepository.GetAllAsync();
