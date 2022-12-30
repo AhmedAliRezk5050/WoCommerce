@@ -1,4 +1,5 @@
 ﻿using API.DTOs;
+using API.Errors;
 using AutoMapper;
 using Core.Interfaces.Repository;
 using Infrastructure.Specifications.Products;
@@ -18,24 +19,25 @@ public class ProductsController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetProducts()
+    public async Task<ActionResult<List<ProductDto>>> GetProducts()
     {
         var products = await _unitOfWork.ProductRepository.GetAllAsync(new ProductsWithTypesAndBrandsSpecification());
         return Ok(_mapper.Map<List<ProductDto>>(products));
     }
-     
+
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetProduct(int id)
-    {
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AppErrorResponse), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ProductDto>> GetProduct(int id)
+    { 
         var spec = new ProductWithTypesAndBrandsSpecification(id);
         var product = await _unitOfWork.ProductRepository.GetFirstOrDefaultAsync(spec);
 
         if (product is null)
         {
-            return NotFound();
+            return NotFound(new AppErrorResponse(404));
         }
+
         return Ok(_mapper.Map<ProductDto>(product));
     }
-
-   
-}
+} 
