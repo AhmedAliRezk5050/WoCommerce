@@ -19,9 +19,9 @@ public class ProductsController : ApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> GetProducts(string? sort)
+    public async Task<ActionResult<List<ProductDto>>> GetProducts(string? sort, int? typeId, int? brandId)
     {
-        var products = await _unitOfWork.ProductRepository.GetAllAsync(new ProductsWithTypesAndBrandsSpecification(sort));
+        var products = await _unitOfWork.ProductRepository.GetAllAsync(new ProductsWithTypesAndBrandsSpecification(sort, typeId, brandId));
         return Ok(_mapper.Map<List<ProductDto>>(products));
     }
 

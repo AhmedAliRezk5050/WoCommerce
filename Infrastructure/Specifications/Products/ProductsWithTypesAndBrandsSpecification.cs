@@ -6,7 +6,10 @@ namespace Infrastructure.Specifications.Products;
 
 public class ProductsWithTypesAndBrandsSpecification : Specification<Product>
 {
-    public ProductsWithTypesAndBrandsSpecification(string? sort = null)
+    public ProductsWithTypesAndBrandsSpecification(string? sort = null, int? typeId = null, int? brandId = null)
+    :base(product => (!typeId.HasValue || typeId == product.ProductTypeId)
+                     &&
+                     (!brandId.HasValue || brandId == product.ProductBrandId))
     {
         AddInclude(x => x.ProductType);
         AddInclude(x => x.ProductBrand);
