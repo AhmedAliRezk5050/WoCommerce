@@ -16,4 +16,6 @@ public interface IRepository<T> where T : BaseEntity
     void Remove(T entity);
 
     void RemoveRange(IEnumerable<T> range);
+
+    Task<int> CountAsync(ISpecification<T> specification);
 }

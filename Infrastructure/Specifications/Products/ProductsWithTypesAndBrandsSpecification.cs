@@ -1,22 +1,20 @@
-﻿using System.Linq.Expressions;
-using Core.Entities;
-using Microsoft.IdentityModel.Tokens;
+﻿using Core.Entities;
 
 namespace Infrastructure.Specifications.Products;
 
 public class ProductsWithTypesAndBrandsSpecification : Specification<Product>
 {
-    public ProductsWithTypesAndBrandsSpecification(string? sort = null, int? typeId = null, int? brandId = null)
-    :base(product => (!typeId.HasValue || typeId == product.ProductTypeId)
-                     &&
-                     (!brandId.HasValue || brandId == product.ProductBrandId))
+    public ProductsWithTypesAndBrandsSpecification(ProductsSpecParams specParams)
+        : base(product => (!specParams.TypeId.HasValue || specParams.TypeId == product.ProductTypeId)
+                          &&
+                          (!specParams.BrandId.HasValue || specParams.BrandId == product.ProductBrandId))
     {
         AddInclude(x => x.ProductType);
         AddInclude(x => x.ProductBrand);
 
-        if (!string.IsNullOrEmpty(sort))
+        if (!string.IsNullOrEmpty(specParams.Sort))
         {
-            switch (sort)
+            switch (specParams.Sort)
             {
                 case "priceAsc":
                     AddOrderByAscending(x => x.Price);
@@ -32,5 +30,7 @@ public class ProductsWithTypesAndBrandsSpecification : Specification<Product>
                     break;
             }
         }
+
+        ApplyPaging((specParams.PageIndex - 1) * specParams.PageSize, specParams.PageSize);
     }
 }

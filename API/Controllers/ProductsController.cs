@@ -1,5 +1,6 @@
 ﻿using API.DTOs;
 using API.Errors;
+using API.Utility;
 using AutoMapper;
 using Core.Interfaces.Repository;
 using Infrastructure.Specifications.Products;
@@ -19,10 +20,18 @@ public class ProductsController : ApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> GetProducts(string? sort, int? typeId, int? brandId)
+    public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductsSpecParams specParams)
     {
-        var products = await _unitOfWork.ProductRepository.GetAllAsync(new ProductsWithTypesAndBrandsSpecification(sort, typeId, brandId));
-        return Ok(_mapper.Map<List<ProductDto>>(products));
+        var products = await _unitOfWork.ProductRepository.GetAllAsync(new ProductsWithTypesAndBrandsSpecification(specParams));
+        var totalItems = await _unitOfWork.ProductRepository.CountAsync(new ProductsCountSpecification(specParams));
+        var data = _mapper.Map<List<ProductDto>>(products);
+        return Ok(new Pagination<ProductDto>
+        {
+            Count = totalItems,
+            Data = data,
+            PageIndex = specParams.PageIndex,
+            PageSize = specParams.PageSize
+        });
     }
 
     [HttpGet("{id}")]

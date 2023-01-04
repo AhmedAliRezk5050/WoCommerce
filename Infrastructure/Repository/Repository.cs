@@ -39,6 +39,11 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         _dbSet.RemoveRange(range);
     }
 
+    public Task<int> CountAsync(ISpecification<T> specification)
+    {
+        return ApplySpecification(specification).CountAsync();
+    }
+
     private IQueryable<T> ApplySpecification(ISpecification<T> specification)
     {
         return SpecificationEvaluator<T>.GetQuery(_dbSet.AsQueryable(), specification);
