@@ -5,9 +5,12 @@ namespace Infrastructure.Specifications.Products;
 public class ProductsWithTypesAndBrandsSpecification : Specification<Product>
 {
     public ProductsWithTypesAndBrandsSpecification(ProductsSpecParams specParams)
-        : base(product => (!specParams.TypeId.HasValue || specParams.TypeId == product.ProductTypeId)
-                          &&
-                          (!specParams.BrandId.HasValue || specParams.BrandId == product.ProductBrandId))
+        : base(product =>
+            (string.IsNullOrEmpty(specParams.Search) || product.Name.ToLower().Contains(specParams.Search) )
+            &&
+            (!specParams.TypeId.HasValue || specParams.TypeId == product.ProductTypeId)
+            &&
+            (!specParams.BrandId.HasValue || specParams.BrandId == product.ProductBrandId))
     {
         AddInclude(x => x.ProductType);
         AddInclude(x => x.ProductBrand);
