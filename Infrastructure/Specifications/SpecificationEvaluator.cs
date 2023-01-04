@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Specifications;
 
-public class SpecificationEvaluator<T> where T : BaseEntity
+public static class SpecificationEvaluator<T> where T : BaseEntity
 {
     public static IQueryable<T> GetQuery(
         IQueryable<T> inputQuery,
@@ -15,6 +15,16 @@ public class SpecificationEvaluator<T> where T : BaseEntity
         if (specification.Criteria is not null)
         {
             query = query.Where(specification.Criteria);
+        }
+
+        if (specification.OrderByAscending is not null)
+        {
+            query = query.OrderBy(specification.OrderByAscending);
+        }
+        
+        if (specification.OrderByDescending is not null)
+        {
+            query = query.OrderByDescending(specification.OrderByDescending);
         }
 
         query = specification.Includes
