@@ -9,11 +9,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
-import {faReact as fabReact} from '@fortawesome/free-brands-svg-icons'
+import {faReact as fabReact} from '@fortawesome/free-brands-svg-icons';
+import { NavBarComponent } from './nav-bar/nav-bar.component'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
