@@ -14,6 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {faReact as fabReact, faOpencart as fabOpencart} from '@fortawesome/free-brands-svg-icons';
 import {NavBarComponent} from './nav-bar/nav-bar.component'
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {NavBarComponent} from './nav-bar/nav-bar.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
