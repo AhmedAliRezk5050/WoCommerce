@@ -1,4 +1,5 @@
-﻿using Core.Interfaces.Repository;
+﻿using Core.Entities;
+using Core.Interfaces.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -13,7 +14,7 @@ public class ProductTypesController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetProductTypes()
+    public async Task<ActionResult<ProductType>> GetProductTypes()
     {
         var productTypes  = await _unitOfWork.ProductTypeRepository.GetAllAsync();
         return Ok(productTypes);

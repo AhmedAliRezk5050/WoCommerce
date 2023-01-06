@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Entities;
 using Core.Interfaces.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,7 @@ public class ProductBrandsController : ApiController
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetProductBrands()
+    public async Task<ActionResult<ProductBrand>> GetProductBrands()
     {
         var productBrands  = await _unitOfWork.ProductBrandRepository.GetAllAsync();
         return Ok(productBrands);
