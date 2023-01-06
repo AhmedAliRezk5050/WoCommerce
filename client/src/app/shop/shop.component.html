@@ -1,5 +1,28 @@
-<ul>
-  <li *ngFor="let product of products">
-    {{product.name}}
-  </li>
-</ul>
+<div class="container grid grid-cols-12">
+  <div class="col-start-1 col-end-4">
+    <h5>Sort</h5>
+    <select>
+      <option selected>Alphabetical</option>
+      <option>Price: Low to High</option>
+      <option>Price: High to Low</option>
+    </select>
+    <h5 class="">Brands</h5>
+    <ul>
+      <li>b</li>
+    </ul>
+    <h5 class="">Types</h5>
+    <ul>
+      <li>t</li>
+    </ul>
+  </div>
+  <div class="col-start-4 col-end-13">
+    <div class="flex flex-row justify-between">
+      <h5>Showing 10 of 16 Results</h5>
+      <div class="flex flex-row items-center gap-3">
+        <input type="text">
+        <button class="">Search</button>
+        <button class="">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
