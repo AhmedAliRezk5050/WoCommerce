@@ -16,7 +16,7 @@
     </ul>
   </div>
   <div class="col-start-4 col-end-13">
-    <div class="flex flex-row justify-between">
+    <div class="flex flex-row justify-between mb-5">
       <h5>Showing 10 of 16 Results</h5>
       <div class="flex flex-row items-center gap-3">
         <input type="text">
@@ -24,5 +24,10 @@
         <button class="">Reset</button>
       </div>
     </div>
+    <div class="grid grid-cols-3 gap-3">
+      <app-product-item *ngFor="let product of products" [product]="product"></app-product-item>
+    </div>
   </div>
 </div>
+
+<!-- auto-rows-[200px]-->
