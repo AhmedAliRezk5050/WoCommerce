@@ -8,11 +8,11 @@
     </select>
     <h5 class="">Brands</h5>
     <ul>
-      <li>b</li>
+      <li *ngFor="let brand of productsBrands">{{brand.name}}</li>
     </ul>
     <h5 class="">Types</h5>
     <ul>
-      <li>t</li>
+      <li *ngFor="let type of productsTypes">{{type.name}}</li>
     </ul>
   </div>
   <div class="col-start-4 col-end-13">

@@ -15,7 +15,7 @@ public class ProductBrandsController : ApiController
     }
     
     [HttpGet]
-    public async Task<ActionResult<ProductBrand>> GetProductBrands()
+    public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
     {
         var productBrands  = await _unitOfWork.ProductBrandRepository.GetAllAsync();
         return Ok(productBrands);
