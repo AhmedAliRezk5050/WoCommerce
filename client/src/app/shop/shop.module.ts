@@ -5,14 +5,17 @@ import {ShopRoutingModule} from "./shop-routing.module";
 
 
 @NgModule({
-  declarations: [
-    ShopComponent
-  ],
-  imports: [
-    CommonModule,
-    ShopRoutingModule,
+    declarations: [
+        ShopComponent
+    ],
+    exports: [
+        ShopComponent
+    ],
+    imports: [
+        CommonModule,
+        ShopRoutingModule,
 
-  ]
+    ]
 })
 export class ShopModule {
 }
