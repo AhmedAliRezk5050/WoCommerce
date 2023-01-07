@@ -1,10 +1,8 @@
 <div class="container grid grid-cols-12">
   <div class="col-start-1 col-end-4 px-3 mr-5">
     <h5 class="text-amber-500 text-xl mb-2">Sort</h5>
-    <select class="mb-5 py-2 px-3 outline-none appearance-none border rounded text-center text-lg">
-      <option selected>Alphabetical</option>
-      <option>Price: Low to High</option>
-      <option>Price: High to Low</option>
+    <select class="mb-5 py-2 px-3 outline-none appearance-none border rounded text-center text-lg" (change)="sort($event)">
+      <option *ngFor="let opt of sortSelectOptions" [value]="opt.value">{{opt.name}}</option>
     </select>
     <h5 class="text-amber-500 text-xl mb-2">Brands</h5>
     <ul class="mb-5">

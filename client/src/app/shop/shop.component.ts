@@ -15,7 +15,13 @@ export class ShopComponent implements OnInit {
   productsTypes: IProductType[] = [];
   brandId = 0
   typeId = 0
-
+  sortSelected = 'nameAsc'
+  sortSelectOptions = [
+    {name: 'Alphabetical', value: 'nameAsc'},
+    {name: 'Alphabetical - Descending', value: 'nameDesc'},
+    {name: 'Price: Low to High', value: 'priceAsc'},
+    {name: 'Price: High to Low', value: 'priceDesc'},
+  ]
   constructor(public shopService: ShopService) {
 
   }
@@ -27,7 +33,7 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService.getProducts(this.brandId, this.typeId).subscribe({
+    this.shopService.getProducts(this.brandId, this.typeId, this.sortSelected).subscribe({
       next: (response) => {
         this.products = response?.data ?? [] ;
       },
@@ -67,5 +73,10 @@ export class ShopComponent implements OnInit {
   setTypeId(typeId: number) {
     this.typeId = typeId;
     this.getProducts()
+  }
+
+  sort(event: Event) {
+    this.sortSelected =  (event.target as HTMLSelectElement).value
+    this.getProducts();
   }
 }
