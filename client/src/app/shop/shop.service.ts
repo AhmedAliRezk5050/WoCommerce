@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import IPagination from "../shared/models/IPagination";
 import IProduct from "../shared/models/IProduct";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {map, Observable} from "rxjs";
 import IProductBrand from "../shared/models/IProductBrand";
 import IProductType from "../shared/models/IProductType";
 
@@ -11,10 +11,23 @@ import IProductType from "../shared/models/IProductType";
 })
 export class ShopService {
   baseUrl = 'https://localhost:5001/api/'
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getProducts(): Observable<IPagination<IProduct>> {
-    return this.http.get<IPagination<IProduct>>(`${this.baseUrl}products?pageSize=10`)
+  getProducts(brandId : number, typeId: number) {
+    let params = new HttpParams();
+
+    if(brandId) {
+      params = params.append('brandId', brandId);
+    }
+
+    if(typeId) {
+      params = params.append('typeId', typeId);
+    }
+
+    return this.http.get<IPagination<IProduct>>(`${this.baseUrl}products`, {
+      params
+    })
   }
 
   getProductsBrands(): Observable<IProductBrand[]> {

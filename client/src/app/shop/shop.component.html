@@ -1,18 +1,24 @@
 <div class="container grid grid-cols-12">
-  <div class="col-start-1 col-end-4">
-    <h5>Sort</h5>
-    <select>
+  <div class="col-start-1 col-end-4 px-3 mr-5">
+    <h5 class="text-amber-500 text-xl mb-2">Sort</h5>
+    <select class="mb-5 py-2 px-3 outline-none appearance-none border rounded text-center text-lg">
       <option selected>Alphabetical</option>
       <option>Price: Low to High</option>
       <option>Price: High to Low</option>
     </select>
-    <h5 class="">Brands</h5>
-    <ul>
-      <li *ngFor="let brand of productsBrands">{{brand.name}}</li>
+    <h5 class="text-amber-500 text-xl mb-2">Brands</h5>
+    <ul class="mb-5">
+      <li *ngFor="let brand of productsBrands" class="border p-3 hover:bg-indigo-400 hover:text-white cursor-pointer"
+          (click)="setBrandId(brand.id)" [ngClass]="{'bg-indigo-400 text-white': brandId === brand.id}">
+        {{brand.name}}
+      </li>
     </ul>
-    <h5 class="">Types</h5>
-    <ul>
-      <li *ngFor="let type of productsTypes">{{type.name}}</li>
+    <h5 class="text-amber-500 text-xl mb-2">Types</h5>
+    <ul class="mb-5 ">
+      <li *ngFor="let type of productsTypes" class="border p-3 hover:bg-indigo-400 hover:text-white cursor-pointer"
+          (click)="setTypeId(type.id)" [ngClass]="{'bg-indigo-400 text-white': typeId === type.id}">
+        {{type.name}}
+      </li>
     </ul>
   </div>
   <div class="col-start-4 col-end-13">
