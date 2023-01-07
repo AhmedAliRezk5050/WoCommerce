@@ -8,16 +8,25 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {faStar as farStar} from "@fortawesome/free-regular-svg-icons";
 import {faOpencart as fabOpencart, faReact as fabReact} from "@fortawesome/free-brands-svg-icons";
+import {PaginationComponent} from "./components/pagination/pagination.component";
+import { PaginationHeaderComponent } from './components/pagination-header/pagination-header.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    PaginationComponent,
+    PaginationHeaderComponent
+  ],
   imports: [
     CommonModule,
     FontAwesomeModule,
   ],
-  exports: [FontAwesomeModule]
+  exports: [
+    FontAwesomeModule,
+    PaginationComponent,
+    PaginationHeaderComponent
+  ]
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {

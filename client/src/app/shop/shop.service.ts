@@ -5,6 +5,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import IProductBrand from "../shared/models/IProductBrand";
 import IProductType from "../shared/models/IProductType";
+import ShopParams from "../shared/models/shop-params";
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,20 @@ export class ShopService {
   constructor(private http: HttpClient) {
   }
 
-  getProducts(brandId : number, typeId: number, sort: string) {
+  getProducts(shopParams: ShopParams) {
     let params = new HttpParams();
 
-    if(brandId) {
-      params = params.append('brandId', brandId);
+    if(shopParams.brandId) {
+      params = params.append('brandId', shopParams.brandId);
     }
 
-    if(typeId) {
-      params = params.append('typeId', typeId);
+    if(shopParams.typeId) {
+      params = params.append('typeId', shopParams.typeId);
     }
 
-    params = params.append('sort', sort)
+    params = params.append('sort', shopParams.sortSelected)
+
+    params = params.append('pageIndex', shopParams.pageIndex)
 
     return this.http.get<IPagination<IProduct>>(`${this.baseUrl}products`, {
       params

@@ -3,6 +3,7 @@ import IProduct from "../shared/models/IProduct";
 import {ShopService} from "./shop.service";
 import IProductBrand from "../shared/models/IProductBrand";
 import IProductType from "../shared/models/IProductType";
+import ShopParams from "../shared/models/shop-params";
 
 @Component({
   selector: 'app-shop',
@@ -13,15 +14,19 @@ export class ShopComponent implements OnInit {
   products: IProduct[] = [];
   productsBrands: IProductBrand[] = [];
   productsTypes: IProductType[] = [];
-  brandId = 0
-  typeId = 0
-  sortSelected = 'nameAsc'
+  pages: number[] = [];
+  productsCount = 0;
+  paginationHeaderMsg = '';
+
+  shopParams = new ShopParams();
+
   sortSelectOptions = [
     {name: 'Alphabetical', value: 'nameAsc'},
     {name: 'Alphabetical - Descending', value: 'nameDesc'},
     {name: 'Price: Low to High', value: 'priceAsc'},
     {name: 'Price: High to Low', value: 'priceDesc'},
   ]
+
   constructor(public shopService: ShopService) {
 
   }
@@ -33,9 +38,14 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService.getProducts(this.brandId, this.typeId, this.sortSelected).subscribe({
+    this.shopService.getProducts(this.shopParams).subscribe({
       next: (response) => {
-        this.products = response?.data ?? [] ;
+        this.products = response.data;
+        this.pages = [...Array(Math.ceil(response.count / response.pageSize) + 1).keys()].slice(1);
+        this.shopParams.pageIndex = response.pageIndex;
+        this.shopParams.pageSize = response.pageSize;
+        this.productsCount = response.count;
+        // this.foo()
       },
       error: err => {
         console.log(err);
@@ -66,17 +76,44 @@ export class ShopComponent implements OnInit {
   }
 
   setBrandId(brandId: number) {
-    this.brandId = brandId;
+    this.shopParams.brandId = brandId;
+    this.shopParams.pageIndex = 1;
     this.getProducts()
   }
 
   setTypeId(typeId: number) {
-    this.typeId = typeId;
+    this.shopParams.typeId = typeId;
+    this.shopParams.pageIndex = 1;
     this.getProducts()
   }
 
   sort(event: Event) {
-    this.sortSelected =  (event.target as HTMLSelectElement).value
+    this.shopParams.sortSelected = (event.target as HTMLSelectElement).value
     this.getProducts();
+  }
+
+  onPageIndexSelected(index: number) {
+    this.shopParams.pageIndex = index;
+    this.getProducts();
+    return false;
+  }
+
+  foo() {
+
+    const pageIndex = this.shopParams.pageIndex
+    const productsCount = this.productsCount;
+    const pageSize = this.shopParams.pageSize >= productsCount ? productsCount : this.shopParams.pageSize;
+    if (this.pages.length === 0) {
+      this.paginationHeaderMsg = 'There are 0 results'
+      return;
+    }
+
+    if (pageIndex === 1) {
+      this.paginationHeaderMsg = `Showing 1-${pageSize} of ${productsCount}`
+      return;
+    }
+
+    this.paginationHeaderMsg = `Showing ${(pageIndex - 1)*pageSize + 1} - ${pageIndex*pageSize} of ${productsCount}`
+    return;
   }
 }

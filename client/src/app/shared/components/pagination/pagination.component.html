@@ -1,0 +1,40 @@
+<nav aria-label="Page navigation example">
+  <ul class="inline-flex -space-x-px items-center">
+    <li>
+      <button
+        class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border
+         border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800
+          dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        [ngClass]="{
+          'cursor-not-allowed  hover:bg-white hover:text-gray-400 text-gray-400': pageIndex <= 1
+        }"
+        (click)="newPageIndex.emit(pageIndex - 1)"
+        [disabled]="pageIndex <= 1"
+      >
+        Previous
+      </button>
+    </li>
+
+    <li *ngFor="let page of pages">
+      <button
+        class="cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800
+         dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        [ngClass]="{
+        'text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-gray-500': page === pageIndex
+        }"
+        (click)="newPageIndex.emit(page)"
+      >{{page}}</button>
+    </li>
+    <li>
+      <button class="cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700
+          dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              [ngClass]="{
+          'cursor-not-allowed hover:bg-white hover:text-gray-400 text-gray-400': pageIndex >= pages.length
+        }"
+              (click)="newPageIndex.emit(pageIndex + 1)"
+              [disabled]="pageIndex >= pages.length"
+      >Next
+      </button>
+    </li>
+  </ul>
+</nav>
