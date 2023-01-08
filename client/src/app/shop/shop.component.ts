@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import IProduct from "../shared/models/IProduct";
 import {ShopService} from "./shop.service";
 import IProductBrand from "../shared/models/IProductBrand";
@@ -27,6 +27,8 @@ export class ShopComponent implements OnInit {
     {name: 'Price: High to Low', value: 'priceDesc'},
   ]
 
+  @ViewChild('searchInput') searchInput?: ElementRef
+
   constructor(public shopService: ShopService) {
 
   }
@@ -45,7 +47,6 @@ export class ShopComponent implements OnInit {
         this.shopParams.pageIndex = response.pageIndex;
         this.shopParams.pageSize = response.pageSize;
         this.productsCount = response.count;
-        // this.foo()
       },
       error: err => {
         console.log(err);
@@ -115,5 +116,17 @@ export class ShopComponent implements OnInit {
 
     this.paginationHeaderMsg = `Showing ${(pageIndex - 1)*pageSize + 1} - ${pageIndex*pageSize} of ${productsCount}`
     return;
+  }
+
+  onSearch() {
+    if(!this.searchInput) return;
+    this.shopParams.searchTerm = this.searchInput.nativeElement.value;
+    this.getProducts();
+  }
+
+  reset() {
+    this.shopParams = new ShopParams();
+    if(this.searchInput) this.searchInput.nativeElement.value = ''
+    this.getProducts()
   }
 }

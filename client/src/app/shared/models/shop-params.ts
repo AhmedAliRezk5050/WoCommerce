@@ -5,5 +5,6 @@ export default class ShopParams {
   pageIndex = 1;
 
   pageSize = 6
+  searchTerm = ''
 
 }

@@ -30,6 +30,10 @@ export class ShopService {
 
     params = params.append('pageIndex', shopParams.pageIndex)
 
+    if(shopParams.searchTerm.trim() !== '') {
+      params = params.append('search', shopParams.searchTerm)
+    }
+
     return this.http.get<IPagination<IProduct>>(`${this.baseUrl}products`, {
       params
     })
